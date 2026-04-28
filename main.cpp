@@ -8,76 +8,138 @@ struct menuItemType {
     double menuPrice;
 };
 
-void getData(menuItemType menuList[], int &kiek) {
+// Nuskaito meniu iš failo
+int getData(menuItemType menuList[]) {
     ifstream fin("menu.txt");
 
     if (!fin.is_open()) {
         cout << "Nepavyko atidaryti menu.txt failo!\n";
-        exit(1);
+        return 0;
     }
 
-    kiek = 0;
+    int count = 0;
 
-    while (!fin.eof()) {
-        fin >> ws;
-        getline(fin, menuList[kiek].menuItem);
-
-        if (menuList[kiek].menuItem == "")
-            break;
-
-        fin >> menuList[kiek].menuPrice;
-        fin >> ws;
-
-        kiek++;
+    while (fin >> ws && getline(fin, menuList[count].menuItem, '\t') &&
+           fin >> menuList[count].menuPrice) {
+        count++;
     }
 
     fin.close();
+    return count;
 }
 
-void showMenu(menuItemType menuList[], int kiek) {
+// Parodo meniu
+void showMenu(menuItemType menuList[], int menuSize) {
     cout << "\n--- PUSRYČIŲ MENIU ---\n";
 
-    for (int i = 0; i < kiek; i++) {
-        cout << i + 1 << ". " << menuList[i].menuItem
-             << "  " << fixed << setprecision(2)
-             << menuList[i].menuPrice << "€\n";
+    for (int i = 0; i < menuSize; i++) {
+        cout << i + 1 << ". "
+             << left << setw(40) << menuList[i].menuItem
+             << fixed << setprecision(2) << menuList[i].menuPrice << " EUR\n";
     }
 
-    cout << "\nPasirinkite patiekalo numerį (0 - baigti užsakymą)\n";
+    cout << "\nPasirinkite patiekalo numeri (0 - baigti užsakyma)\n";
 }
 
-void printCheck(menuItemType menuList[], int kiek, int pasirinkimai[], int porcijos[]) {
+// Spausdina sąskaita i ekrana ir į faila
+void printCheck(menuItemType menuList[], int pasirinkti[], int kiekiai[], int pasirinkimuKiekis) {
     ofstream fout("receipt.txt");
+
+    cout << "\n--- SASKAITA ---\n";
+    fout << "--- SASKAITA ---\n";
 
     double suma = 0;
 
-    cout << "\nSveiki atvykę į restoraną „Pavadinimas“\n\n";
-    fout << "Sveiki atvykę į restoraną „Pavadinimas“\n\n";
+    for (int i = 0; i < pasirinkimuKiekis; i++) {
+        int id = pasirinkti[i];
+        int kiek = kiekiai[i];
 
-    for (int i = 0; i < kiek; i++) {
-        if (pasirinkimai[i] == 1) {
+        double tarpine = menuList[id].menuPrice * kiek;
+        suma += tarpine;
 
-            double tarpine = menuList[i].menuPrice * porcijos[i];
-            suma += tarpine;
+        cout << left << setw(3) << kiek
+             << setw(40) << menuList[id].menuItem
+             << fixed << setprecision(2) << tarpine << " EUR\n";
 
-            cout << porcijos[i] << "  " << menuList[i].menuItem
-                 << "   " << fixed << setprecision(2)
-                 << tarpine << "€\n";
-
-            fout << porcijos[i] << "  " << menuList[i].menuItem
-                 << "   " << fixed << setprecision(2)
-                 << tarpine << "€\n";
-        }
+        fout << left << setw(3) << kiek
+             << setw(40) << menuList[id].menuItem
+             << fixed << setprecision(2) << tarpine << " EUR\n";
     }
 
     double pvm = suma * 0.21;
     double galutine = suma + pvm;
 
-    cout << "\nMokesčiai (21%)   " << fixed << setprecision(2) << pvm << "€\n";
-    cout << "Galutinė suma     " << fixed << setprecision(2) << galutine << "€\n";
+    cout << "\nMokesčiai (21%)" << setw(33) << " "
+         << fixed << setprecision(2) << pvm << " EUR\n";
 
-    fout << "\nMokesčiai (21%)   " << fixed << setprecision(2) << pvm << "€\n";
-    fout << "Galutinė suma     " << fixed << setprecision(2) << galutine << "€\n";
+    cout << "Galutinė suma" << setw(35) << " "
+         << fixed << setprecision(2) << galutine << " EUR\n";
+
+    fout << "\nMokesčiai (21%)" << setw(33) << " "
+         << fixed << setprecision(2) << pvm << " EUR\n";
+
+    fout << "Galutinė suma" << setw(35) << " "
+         << fixed << setprecision(2) << galutine << " EUR\n";
 
     fout.close();
+}
+
+int main() {
+
+    // ijungiam UTF-8, kad nebutu keistu simboliu
+    system("chcp 65001 > nul");
+
+    menuItemType menuList[50];
+    int menuSize = getData(menuList);
+
+    if (menuSize == 0) {
+        cout << "Meniu negautas. Programa stabdoma.\n";
+        return 0;
+    }
+
+    int pasirinkti[100];
+    int kiekiai[100];
+    int pasirinkimuKiekis = 0;
+
+    bool programIsRunning = true;
+
+    while (programIsRunning) {
+
+        showMenu(menuList, menuSize);
+
+        int pasirinkimas;
+        cout << "Pasirinkimas: ";
+        cin >> pasirinkimas;
+
+        if (pasirinkimas == 0) {
+            programIsRunning = false;
+            break;
+        }
+
+        if (pasirinkimas < 1 || pasirinkimas > menuSize) {
+            cout << "Neteisingas pasirinkimas!\n";
+            continue;
+        }
+
+        int kiek;
+        cout << "Kiek porciju norite? ";
+        cin >> kiek;
+
+        if (kiek < 1) kiek = 1;
+
+        pasirinkti[pasirinkimuKiekis] = pasirinkimas - 1;
+        kiekiai[pasirinkimuKiekis] = kiek;
+        pasirinkimuKiekis++;
+
+        cout << "Patiekalas pridėtas!\n";
+    }
+
+    if (pasirinkimuKiekis > 0) {
+        printCheck(menuList, pasirinkti, kiekiai, pasirinkimuKiekis);
+        cout << "\nSaskaita issaugota faile receipt.txt\n";
+    } else {
+        cout << "Nieko neuzsisakete.\n";
+    }
+
+    return 0;
 }

@@ -1,0 +1,8 @@
+--- SĄSKAITA ---
+3  Prancuziskas skrebutis                  5.97 EUR
+2  Kava                                    1.00 EUR
+5  Arbata                                  3.75 EUR
+4  Keksiukas su vysnia                     3.96 EUR
+
+Mokesčiai (21%)                                 3.08 EUR
+Galutinė suma                                   17.76 EUR
