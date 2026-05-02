@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/s062523/Desktop/treciaspraktinisdarbas/TreciasPraktinisDarbas
+# Install script for directory: C:/Users/User/OneDrive/Desktop/New folder (2)/TreciasPraktinisDarbas
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,13 +34,13 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2025.3.1/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2025.3.2/bin/mingw/bin/objdump.exe")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/s062523/Desktop/treciaspraktinisdarbas/TreciasPraktinisDarbas/cmake-build-debug/install_local_manifest.txt"
+  file(WRITE "C:/Users/User/OneDrive/Desktop/New folder (2)/TreciasPraktinisDarbas/cmake-build-debug/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -56,6 +56,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/s062523/Desktop/treciaspraktinisdarbas/TreciasPraktinisDarbas/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "C:/Users/User/OneDrive/Desktop/New folder (2)/TreciasPraktinisDarbas/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

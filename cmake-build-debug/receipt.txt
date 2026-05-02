@@ -1,8 +1,8 @@
---- SĄSKAITA ---
-3  Prancuziskas skrebutis                  5.97 EUR
-2  Kava                                    1.00 EUR
-5  Arbata                                  3.75 EUR
-4  Keksiukas su vysnia                     3.96 EUR
+--- SASKAITA ---
+3  Vaisiu salotos                          7.47 EUR
+3  Pusryciu dribsniai                      2.07 EUR
+3  Kiaulienos sonine su keptu kiausiniu    7.35 EUR
+5  Vaisiu salotos                          12.45 EUR
 
-Mokesčiai (21%)                                 3.08 EUR
-Galutinė suma                                   17.76 EUR
+Mokesčiai (21%)                                 6.16 EUR
+Galutinė suma                                   35.50 EUR
